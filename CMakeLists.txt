@@ -156,3 +156,8 @@ INSTALL(FILES ${helpfiles_de} DESTINATION help/de)
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/help/de/main.htm DESTINATION help/de)
 
 INSTALL(TARGETS qtemu DESTINATION bin)
+
+IF(UNIX)
+    INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/misc/qtemu.desktop DESTINATION share/applications)
+    INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/crystal/qtemu.png DESTINATION share/icons/hicolor/32x32/apps)
+ENDIF(UNIX)
