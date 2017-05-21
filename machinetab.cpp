@@ -137,13 +137,13 @@ MachineTab::MachineTab(QTabWidget *parent, const QString &fileName, const QStrin
     memoryFrameLayout->addWidget(memoryDescriptionLabel);
 
     memorySlider = new QSlider(Qt::Horizontal, this);
-    memorySlider->setRange(4, 1024);
+    memorySlider->setRange(4, 4096);
     memorySlider->setSingleStep(4);
     memorySlider->setTickPosition(QSlider::TicksBelow);
     memorySlider->setTickInterval(64);
 
     QSpinBox *memorySpinBox = new QSpinBox(this);
-    memorySpinBox->setRange(4, 1024);
+    memorySpinBox->setRange(4, 4096);
     memorySpinBox->setSingleStep(4);
 
     QLabel *memoryMbLabel = new QLabel(tr("MB"), this);
