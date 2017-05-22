@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -24,7 +24,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// #define DEVELOPER
-#define VERSION "1.0.5"
+#define VERSION "2.0 Alpha1"
 
 #endif

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -24,108 +24,73 @@
 #ifndef MACHINEWIZARD_H
 #define MACHINEWIZARD_H
 
-#include "wizard.h"
+#include <QWizard>
 
-class ChooseSystemPage;
-class LocationPage;
-class ImagePage;
 class QComboBox;
 class QLineEdit;
 class QDoubleSpinBox;
-class QProcess;
-class QDir;
+class QCheckBox;
 
-class MachineWizard : public Wizard
+class MachineWizard : public QWizard
 {
     Q_OBJECT
+
 public:
     explicit MachineWizard(const QString &myMachinesPath, QWidget *parent = 0);
 
     static QString newMachine(const QString &myMachinesPathParent, QWidget *parent);
 
-    QString osName;
-    QString osNameUser;
-    QString osPathUser;
+    void accept();
+
     QString myMachinesPath;
-
-private:
-    ChooseSystemPage *chooseSystemPage;
-    LocationPage *locationPage;
-    ImagePage *imagePage;
-
-    friend class ChooseSystemPage;
-    friend class LocationPage;
-    friend class ImagePage;
 };
 
-class MachineWizardPage : public WizardPage
+class ChooseSystemPage : public QWizardPage
 {
     Q_OBJECT
-public:
-    MachineWizardPage(MachineWizard *wizard)
-        : WizardPage(wizard), wizard(wizard) {}
 
-protected:
-    MachineWizard *wizard;
-};
-
-class ChooseSystemPage : public MachineWizardPage
-{
-    Q_OBJECT
 public:
     ChooseSystemPage(MachineWizard *wizard);
 
-    void updateTitle();
-    void resetPage();
-    bool isComplete();
-    WizardPage *nextPage();
+    bool isComplete() const;
 
 private:
     QComboBox *comboSystem;
 };
 
-class LocationPage : public MachineWizardPage
+class LocationPage : public QWizardPage
 {
     Q_OBJECT
+
 public:
     LocationPage(MachineWizard *wizard);
 
-    void updateTitle();
-    void resetPage();
-    bool isComplete();
-    WizardPage *nextPage();
+    void initializePage();
+    bool isComplete() const;
     QLineEdit *pathLineEdit;
     QLineEdit *nameLineEdit;
 
-private:
-    QLabel *nameLabel;
-    QLabel *pathLabel;
-
 private slots:
-    void privateSlot();
+    void updatePath();
     void setNewPath();
 };
 
-class ImagePage : public MachineWizardPage
+class ImagePage : public QWizardPage
 {
     Q_OBJECT
+
 public:
     ImagePage(MachineWizard *wizard);
 
-    void updateTitle();
-    void resetPage();
-    bool isComplete();
-    bool isLastPage() { return true; }
+    void cleanupPage();
+    bool isComplete() const;
 
 private:
-    QLabel *sizeLabel;
-    QLabel *sizeGbLabel;
     QDoubleSpinBox *sizeSpinBox;
-    QProcess *imageCreateProcess;
-    QDir *dir;
-
+    QCheckBox *encryptionCheckBox;
+    
 private slots:
-    void privateSlot();
+    //void enableEncryption(int choice);
 };
 
 #endif

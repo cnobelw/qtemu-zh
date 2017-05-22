@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** Some parts of this file have been taken from
 ** examples/dialogs/complexwizard of Qt 4.1 which is

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -28,6 +28,7 @@
 #include "helpwindow.h"
 #include "configwindow.h"
 #include "config.h"
+#include "machineprocess.h"
 
 #include <QSettings>
 #include <QTabWidget>
@@ -45,6 +46,7 @@
 #include <QStatusBar>
 #include <QToolBar>
 #include <QMessageBox>
+#include <QToolButton>
 
 MainWindow::MainWindow()
 {
@@ -70,8 +72,44 @@ MainWindow::MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    writeSettings();
-    event->accept();
+    int runningMachines = 0;
+    int savingMachines = 0;
+    for (int i = 1; i<(tabWidget->count());i++)
+    {
+       MachineTab *tab = static_cast<MachineTab *>(tabWidget->widget(i));
+       if(tab->machineProcess->state() == MachineProcess::Running)
+       {
+           runningMachines++;
+       }
+       else if(tab->machineProcess->state() == MachineProcess::Saving)
+       {
+           savingMachines++;
+       }
+    }
+    if (savingMachines != 0)
+    {
+        QMessageBox::critical(this, tr("Virtual Machine Saving State!"),
+                              tr("You have virtual machines currently saving their state.<br />"
+                                 "Quitting now would very likely damage your Virtual Machine!!"),
+                              QMessageBox::Cancel);
+        event->ignore();
+        return;
+    }
+
+    if (runningMachines == 0 || QMessageBox::question(this, tr("Exit confirmation"),
+                              tr("You have virtual machines currently running. Are you sure you want to quit?<br />"
+                                 "Quitting QtEmu will leave your virtual machines running. QtEmu will<br />"
+                                 "automatically reconnect to your virtual machines next time you run it."),
+                              QMessageBox::Close | QMessageBox::Cancel, QMessageBox::Cancel)
+      == QMessageBox::Close)
+    {
+        writeSettings();
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 
 void MainWindow::createNew()
@@ -121,6 +159,13 @@ void MainWindow::start()
     startButton->click();
 }
 
+void MainWindow::pause()
+{
+    MachineTab *tab = qobject_cast<MachineTab *>(tabWidget->currentWidget());
+    QPushButton *pauseButton = qobject_cast<QPushButton *>(tab->pauseButton);
+    pauseButton->click();
+}
+
 void MainWindow::stop()
 {
     MachineTab *tab = qobject_cast<MachineTab *>(tabWidget->currentWidget());
@@ -130,17 +175,20 @@ void MainWindow::stop()
 
 void MainWindow::restart()
 {
-    stop();
-    QTimer::singleShot(500, this, SLOT(start()));
+    //stop();
+    //QTimer::singleShot(500, this, SLOT(start()));
+    MachineTab *tab = qobject_cast<MachineTab *>(tabWidget->currentWidget());
+    tab->restart();
 }
 
 void MainWindow::about()
 {
      QMessageBox::about(this, tr("About QtEmu"),
-            tr("<center><h2>QtEmu</h2>Version %1</center><br>"
+            tr("<h2>QtEmu</h2>Version %1<br>"
                "<b><i>QtEmu</i></b> is a graphical user interface for "
                "<a href=http://qemu.org>QEMU</a>.<br><br>Copyright &copy; "
-               "2006-2007 Urs Wolfer <a href=mailto:uwolfer%2fwo.ch>uwolfer%2fwo.ch</a>. "
+               "2006-2009 Urs Wolfer <a href=mailto:uwolfer%2fwo.ch>uwolfer%2fwo.ch</a>.<br />"
+               "Copyright &copy; 2008-2009 Ben Klopfenstein <a href=mailto:benklop%2gmail.com>benklop%2gmail.com</a>.<br />"
                "All rights reserved.<br><br>"
                "The program is provided AS IS with NO WARRANTY OF ANY KIND.<br><br>"
                "The icons have been taken from the KDE Crystal and Oxygen themes which are LGPL licensed.")
@@ -197,11 +245,11 @@ void MainWindow::createActions()
     restartAct->setEnabled(false);
     connect(restartAct, SIGNAL(triggered()), this, SLOT(restart()));
 
-//     pauseAct = new QAction(QIcon(":/images/" + iconTheme + "/pause.png"), tr("&Pause"), this);
-//     pauseAct->setShortcut(tr("Ctrl+Q"));
-//     pauseAct->setStatusTip(tr("Pause this machine"));
-//     pauseAct->setEnabled(false);
-//     connect(pauseAct, SIGNAL(triggered()), this, SLOT(pause()));
+    pauseAct = new QAction(QIcon(":/images/" + iconTheme + "/pause.png"), tr("&Pause"), this);
+    pauseAct->setShortcut(tr("Ctrl+P"));
+    pauseAct->setStatusTip(tr("Pause this machine"));
+    pauseAct->setEnabled(false);
+    connect(pauseAct, SIGNAL(triggered()), this, SLOT(pause()));
 
     helpAct = new QAction(tr("QtEmu &Help "), this);
     helpAct->setShortcut(tr("F1"));
@@ -227,9 +275,9 @@ void MainWindow::createMenus()
 
     powerMenu = menuBar()->addMenu(tr("&Power"));
     powerMenu->addAction(startAct);
+    powerMenu->addAction(pauseAct);
     powerMenu->addAction(stopAct);
     powerMenu->addAction(restartAct);
-//    powerMenu->addAction(pauseAct);
 
     menuBar()->addSeparator();
 
@@ -247,9 +295,9 @@ void MainWindow::createToolBars()
 
     powerToolBar = addToolBar(tr("Power"));
     powerToolBar->addAction(startAct);
+    powerToolBar->addAction(pauseAct);
     powerToolBar->addAction(stopAct);
     powerToolBar->addAction(restartAct);
-//    powerToolBar->addAction(pauseAct);
 }
 
 void MainWindow::createStatusBar()
@@ -264,7 +312,7 @@ void MainWindow::createMainTab()
     mainTabLabel = new QLabel(mainTabWidget);
     mainTabLabel->setText(tr("<h1>QtEmu</h1>"
                              "QtEmu is a graphical user interface for QEMU. It has the ability "
-                             "to run virtual operating systems on native systems."));
+                             "to run operating systems virtually in a window on native systems."));
     mainTabLabel->setWordWrap(true);
 
     newButton = new QPushButton(mainTabWidget);
@@ -274,7 +322,7 @@ void MainWindow::createMainTab()
     //newButton->setAutoRaise(true);
     newButton->setIcon(QIcon(":/images/" + iconTheme + "/new.png"));
     newButton->setText(tr("Create a new virtual machine. A wizard will help you \n"
-                          "installing a new operating system"));
+                          "prepare for a new operating system"));
     connect(newButton, SIGNAL(clicked()), this, SLOT(createNew()));
 
     openButton = new QPushButton(mainTabWidget);
@@ -383,23 +431,34 @@ void MainWindow::changeMachineState(int value)
         QPushButton *stopButton = qobject_cast<QPushButton *>(tab->stopButton);
         connect(startButton, SIGNAL(clicked()), this, SLOT(changeMachineState()));
         connect(stopButton, SIGNAL(clicked()), this, SLOT(changeMachineState()));
-        if (!startButton->isEnabled())
+        if (!startButton->isEnabled()&&tab->isEnabled())
         {
             stopAct->setEnabled(true);
+            pauseAct->setEnabled(true);
             startAct->setEnabled(false);
             restartAct->setEnabled(true);
+        }
+        else if (tab->isEnabled())
+        {
+            stopAct->setEnabled(false);
+            pauseAct->setEnabled(false);
+            startAct->setEnabled(true);
+            restartAct->setEnabled(false);
         }
         else
         {
             stopAct->setEnabled(false);
-            startAct->setEnabled(true);
+            pauseAct->setEnabled(false);
+            startAct->setEnabled(false);
             restartAct->setEnabled(false);
         }
     }
     else //main tab is active
     {
         stopAct->setEnabled(false);
+        pauseAct->setEnabled(false);
         startAct->setEnabled(false);
         restartAct->setEnabled(false);
     }
 }
+

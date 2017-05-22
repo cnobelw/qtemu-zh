@@ -1,6 +1,7 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2008 Ben Klopfenstein <benklop @ gmail.com>
 **
 ** This file is part of QtEmu.
 **
@@ -26,6 +27,11 @@
 
 #include <QWidget>
 #include <QDomDocument>
+#include <QRadioButton>
+#include <QButtonGroup>
+
+#include "machineconfigobject.h"
+#include "machineconfig.h"
 
 class QPushButton;
 class QLineEdit;
@@ -36,7 +42,16 @@ class QTabWidget;
 class QTextEdit;
 class QFrame;
 class QPushButton;
+class QMenu;
 class MachineProcess;
+class MachineView;
+class QVBoxLayout;
+class QGridLayout;
+class QScrollArea;
+class QToolButton;
+class SettingsTab;
+class ControlPanel;
+class GuestToolsListener;
 
 class MachineTab : public QWidget
 {
@@ -47,61 +62,72 @@ public:
     QString machineName();
     QPushButton *startButton;
     QPushButton *stopButton;
+    QPushButton *suspendButton;
+    QPushButton *resumeButton;
+    QPushButton *pauseButton;
+    MachineConfigObject *machineConfigObject;
+    SettingsTab *settingsTab;
+    MachineProcess *machineProcess;
+    MachineView *machineView;
+
+public slots:
+    void restart();
+	
 
 private:
-    MachineProcess *machineProcess;
-    QDomDocument domDocument;
+
+    void makeConnections();
+
+    MachineConfig *machineConfig;
+
     QCheckBox *snapshotCheckBox;
-    QCheckBox *networkCheckBox;
-    QCheckBox *soundCheckBox;
-    QCheckBox *cdBootCheckBox;
-    QCheckBox *floppyBootCheckBox;
-    QCheckBox *mouseCheckBox;
-    QCheckBox *timeCheckBox;
-    QCheckBox *additionalOptionsCheckBox;
-    QSpinBox *cpuSpinBox;
+    
     QLineEdit *machineNameEdit;
-    QLineEdit *hddPathLineEdit;
-    QLineEdit *cdromLineEdit;
-    QLineEdit *floppyLineEdit;
-    QLineEdit *networkCustomOptionsEdit;
-    QLineEdit *additionalOptionsEdit;
-    QSlider *memorySlider;
+    
+    QLineEdit *consoleCommand;
+    QTextEdit *console;
+    
     QString xmlFileName;
     QTabWidget *parentTabWidget;
     QTextEdit *notesTextEdit;
-    QPushButton *memoryButton;
-    QFrame *memoryFrame;
-    QPushButton *hddButton;
-    QFrame *hddFrame;
-    QPushButton *cdromButton;
-    QFrame *cdromFrame;
-    QPushButton *floppyButton;
-    QFrame *floppyFrame;
-    QPushButton *networkButton;
-    QFrame *networkFrame;
-    QPushButton *soundButton;
-    QFrame *soundFrame;
-    QPushButton *otherButton;
-    QFrame *otherFrame;
+    
+    QPushButton *cdromReloadButton;
+
+    QPushButton *floppyReloadButton;
 
     QString myMachinesPath;
 
+    QStringList shownErrors;
+
+    QFrame *consoleFrame;
+    QGridLayout *viewLayout;
+    QScrollArea *machineScroll;
+    ControlPanel *controlPanel;
+
+    void cleanupView();
+   
+    GuestToolsListener *guestToolsListener;
+
 private slots:
     void start();
-    void stop();
+    void forceStop();
+    void suspending();
+    void suspended();
+    void resuming();
+    void resumed();
     void finished();
-    void setNewHddPath();
-    void setNewCdRomPath();
-    void setNewCdImagePath();
-    void setNewFloppyDiskPath();
-    void setNewFloppyDiskImagePath();
-    void closeAllSections();
+    void started();
+    void booting();
+    void error(const QString& errorMsg);
+
     bool read();
-    bool write();
-    void changeValue(const QString &name, const QString &value);
     void nameChanged(const QString &name);
     void closeMachine();
+    void snapshot(const int state);
+    void runCommand();
+    void clearRestart();
+    void takeScreenshot();
+
 };
 
 #endif

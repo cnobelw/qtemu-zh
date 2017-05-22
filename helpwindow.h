@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -33,7 +33,7 @@ class HelpWindow : public QDialog
 
 public:
     HelpWindow(QWidget *parent = 0);
-
+    static QUrl getHelpLocation();
 private slots:
     QUrl getHelpFile();
 };

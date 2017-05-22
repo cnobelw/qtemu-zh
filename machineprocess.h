@@ -1,6 +1,7 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2008 Ben Klopfenstein <benklop @ gmail.com>
 **
 ** This file is part of QtEmu.
 **
@@ -24,52 +25,92 @@
 #ifndef MACHINEPROCESS_H
 #define MACHINEPROCESS_H
 
+#include <QObject>
 #include <QProcess>
+#include <QLocalSocket>
+#include "qtemuenvironment.h"
+#include "harddiskmanager.h"
 
-class MachineProcess : public QProcess
+class NetConfig;
+class UsbConfig;
+
+class MachineProcess : public QObject
 {
     Q_OBJECT
 
 public:
-    MachineProcess(QObject *parent = 0);
+    enum ProcessState {NotRunning = 0, Starting = 1, Running = 2, Stopping = 3, Saving = 4};
 
+    MachineProcess(MachineTab *parent = 0);
+    qint64 write(const QByteArray & byteArray);
+
+    HardDiskManager* getHdManager();
+    UsbConfig* getUsbConfig();
+    QProcess* getProcess();
+    bool event(QEvent *event);
+    MachineProcess::ProcessState state();
+    
 public slots:
     void start();
-    void path(const QString &newPath);
-    void cdRomPath(const QString &newPath);
-    void floppyDiskPath(const QString &newPath);
-    void cdBoot(int value);
-    void floppyBoot(int value);
-    void snapshot(int value);
-    void network(int value);
-    void sound(int value);
-    void memory(int value);
-    void mouse(int value);
-    void time(int value);
-    void cpu(int value);
-    void useAdditionalOptions(int value);
-    void networkCustomOptions(const QString& options);
-    void additionalOptions(const QString& options);
+    void resume(const QString& snapshotName = QString("Default"));
+    void suspend(const QString& snapshotName = QString("Default"));
+    void stop();
+    void forceStop();
+    void togglePause();
+    void changeCdrom();
+    void changeFloppy();
+    void loadCdrom();
+    void connectIfRunning();
 
+signals:
+    void suspending(const QString & snapshotName);
+    void suspended(const QString & snapshotName);
+    void booting();
+    void resuming(const QString & snapshotName);
+    void resumed(const QString & snapshotName);
+    void error(const QString & errorText);
+    void stdout(const QString & stdoutText);
+    void stdin(const QString & stdoutText);
+    void rawConsole(const QString & consoleOutput);
+    void cleanConsole(const QString & consoleOutput);
+    void stateChanged(MachineProcess::ProcessState newState);
+    void started();
+    void finished();
+    
 private:
-    QString pathString;
-    QString cdRomPathString;
-    QString floppyDiskPathString;
-    QString networkCustomOptionsString;
-    QString additionalOptionsString;
-    bool bootFromCdEnabled;
-    bool bootFromFloppyEnabled;
-    bool snapshotEnabled;
-    bool networkEnabled;
-    bool soundEnabled;
-    bool mouseEnabled;
-    bool timeEnabled;
-    bool additionalOptionsEnabled;
-    int memoryInt;
-    int cpuInt;
+    void getVersion();
+    void commitTmp();
+    void createTmp();
+    bool checkIfRunning();
+    void connectToProcess();
+    QStringList buildParamList();
+    QStringList buildEnvironment();
+
+    QString snapshotNameString;
+    QtEmuEnvironment env;
+    long versionMajor, versionMinor, versionBugfix, kvmVersion;
+    bool paused;
+    bool doResume;
+    HardDiskManager *hdManager;
+    QString lastOutput;
+    QStringList outputParts;
+    MachineProcess::ProcessState myState;
+    NetConfig *netConfig;
+    UsbConfig *usbConfig;
+
+    QLocalSocket *console;
+    QProcess *process;
 
 private slots:
+    void beforeRunExecute();
     void afterExitExecute();
+    void readProcess();
+    void readProcessErrors();
+    void writeDebugInfo(const QString& debugText);
+    void resumeFinished(const QString& returnedText);
+    void suspendFinished(const QString& returnedText);
+    void deleteTmp(int successfulCommit);
+    void saveState(MachineProcess::ProcessState newState);
 };
 
 #endif

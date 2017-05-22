@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -33,6 +33,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QGroupBox>
+#include <QCheckBox>
 #include <QFileDialog>
 #include <QCoreApplication>
 
@@ -85,14 +86,13 @@ ConfigWindow::ConfigWindow(const QString &myMachinesPathParent, int tabPosition,
     languagePosition->addItem("English");
     languagePosition->addItem("Deutsch");
     languagePosition->addItem(QString::fromUtf8("Türkçe"));
-    languagePosition->addItem(QString::fromUtf8("русский язык"));
+    languagePosition->addItem(QString::fromUtf8("Русский"));
     languagePosition->addItem(QString::fromUtf8("Česky"));
     languagePosition->addItem(QString::fromUtf8("Español"));
     languagePosition->addItem(QString::fromUtf8("Français"));
     languagePosition->addItem(QString::fromUtf8("Italiano"));
     languagePosition->addItem(QString::fromUtf8("Português do Brasil"));
     languagePosition->addItem(QString::fromUtf8("Polski"));
-    languagePosition->addItem(QString::fromUtf8("简体中文"));
 
     QString language = settings.value("language", QString(QLocale::system().name())).toString();
     int index;
@@ -116,8 +116,6 @@ ConfigWindow::ConfigWindow(const QString &myMachinesPathParent, int tabPosition,
         index = 8;
     else if (language == "pl")
         index = 9;
-    else if (language == "zh")
-        index = 10;
     else
         index = 0;
 
@@ -158,8 +156,9 @@ ConfigWindow::ConfigWindow(const QString &myMachinesPathParent, int tabPosition,
     qemuLayout->addWidget(beforeStartExeTextEdit, 1, 1);
     qemuLayout->addWidget(commandLabel, 2, 0);
     qemuLayout->addWidget(commandLineEdit, 2, 1);
-    qemuLayout->addWidget(afterExitExeLabel, 3, 0, Qt::AlignTop);
-    qemuLayout->addWidget(afterExitExeTextEdit, 3, 1);
+    qemuLayout->addWidget(afterExitExeLabel, 4, 0, Qt::AlignTop);
+    qemuLayout->addWidget(afterExitExeTextEdit, 4, 1);
+
     qemuLayout->setRowStretch(4, 1);
     qemuGroupBox->setLayout(qemuLayout);
 
@@ -217,8 +216,6 @@ void ConfigWindow::languageChange(int index)
            break;
         case 9: languageString = "pl";
            break;
-        case 10: languageString = "zh";
-           break;
         default: languageString = "en";
     }
     settings.setValue("language", languageString);
@@ -236,6 +233,7 @@ void ConfigWindow::loadSettings()
     afterExitExeTextEdit->setPlainText(settings.value("afterExit").toString());
 
     comboIconTheme->setCurrentIndex(comboIconTheme->findText(settings.value("iconTheme", "oxygen").toString(), Qt::MatchContains));
+    
 }
 
 void ConfigWindow::writeSettings()

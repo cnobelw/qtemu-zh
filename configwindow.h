@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2007 Urs Wolfer <uwolfer @ fwo.ch>
+** Copyright (C) 2006-2008 Urs Wolfer <uwolfer @ fwo.ch>
 **
 ** This file is part of QtEmu.
 **
@@ -29,6 +29,7 @@
 class QLineEdit;
 class QComboBox;
 class QTextEdit;
+class QCheckBox;
 
 class ConfigWindow : public QDialog
 {
