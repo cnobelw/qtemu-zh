@@ -253,7 +253,7 @@
     </message>
     <message>
         <location filename="../ui/controlpanel.ui" line="386"/>
-        <source>Toggle full screen mode. 
+        <source>Toggle full screen mode.
 Press CTRL+ALT+ENTER to return to windowed mode.</source>
         <translation>切换全屏模式。
 按CTRL+ALT+ENTER返回窗口模式。</translation>
@@ -685,12 +685,12 @@ the host and the guest. requires guest USB support.</source>
     <message>
         <location filename="../machinewizard.cpp" line="125"/>
         <source>Click here to write down some notes about this machine.</source>
-        <translation>Click here to write down some notes about this machine.</translation>
+        <translation>点击这儿写下关于这台虚拟机的笔记.</translation>
     </message>
     <message>
         <location filename="../machinewizard.cpp" line="208"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../machinewizard.cpp" line="208"/>
@@ -934,7 +934,7 @@ the host and the guest. requires guest USB support.</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="323"/>
-        <source>Create a new virtual machine. A wizard will help you 
+        <source>Create a new virtual machine. A wizard will help you
 prepare for a new operating system</source>
         <translation>创建一个新的虚拟机，一个向导会帮助你
 准备一个新的操作系统。</translation>
@@ -942,7 +942,7 @@ prepare for a new operating system</source>
     <message>
         <location filename="../mainwindow.cpp" line="186"/>
         <source>&lt;h2&gt;QtEmu&lt;/h2&gt;Version %1&lt;br&gt;&lt;b&gt;&lt;i&gt;QtEmu&lt;/i&gt;&lt;/b&gt; is a graphical user interface for &lt;a href=http://qemu.org&gt;QEMU&lt;/a&gt;.&lt;br&gt;&lt;br&gt;Copyright &amp;copy; 2006-2008 Urs Wolfer &lt;a href=mailto:uwolfer%2fwo.ch&gt;uwolfer%2fwo.ch&lt;/a&gt;.&lt;br /&gt;Copyright &amp;copy; 2008 Ben Klopfenstein &lt;a href=mailto:benklop%2gmail.com&gt;benklop%2gmail.com&lt;/a&gt;.&lt;br /&gt;All rights reserved.&lt;br&gt;&lt;br&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND.&lt;br&gt;&lt;br&gt;The icons have been taken from the KDE Crystal and Oxygen themes which are LGPL licensed.</source>
-        <translation>&lt;h2&gt;QtEmu&lt;/h2&gt;版本 %1&lt;br&gt;&lt;b&gt;&lt;i&gt;QtEmu&lt;/i&gt;&lt;/b&gt; 是一个图形用户接口 &lt;a href=http://qemu.org&gt;QEMU&lt;/a&gt;.&lt;br&gt;&lt;br&gt;; 2006-2008 Urs Wolfer &lt;a href=mailto:uwolfer%2fwo.ch&gt;uwolfer%2fwo.ch&lt;/a&gt;.&lt;br/&gt;版权所有; 2008 Ben Klopfenstein &lt;a href=mailto:benklop%2gmail.com&gt;benklop%2gmail.com&lt;/a&gt;.&lt;br/&gt;保留所有权利&lt;br&gt;&lt;br&gt;该程序按原样提供，不提供任何形式的保证。&lt;br&gt;&lt;br&gt;这些图标已经从LGPL许可的KDE Crystal和Oxygen主题中获取。</translation>
+        <translation>&lt;h2&gt;QtEmu&lt;/h2&gt;版本 %1&lt;br&gt;&lt;b&gt;&lt;i&gt;QtEmu&lt;/i&gt;&lt;/b&gt; 是一个图形用户接口 &lt;a   href=http://qemu.org &gt; QEMU &lt;/a&gt;. &lt;br&gt; &lt;br&gt; 2006-2008 Urs Wolfer &lt;a href=mailto:uwolfer%2fwo.ch &gt; uwolfer%2fwo.ch  &lt;/a&gt;.&lt;br/&gt;版权所有; 2008 Ben Klopfenstein &lt;a href=mailto:benklop%2gmail.com &gt; benklop%2gmail.com&lt;/a&gt;.&lt;br/&gt;保留所有权利&lt;br&gt;&lt;br&gt;该程序按原样提供，不提供任何形式的保证。&lt;br&gt;&lt;br&gt;这些图标已经从LGPL许可的KDE Crystal和Oxygen主题中获取。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="91"/>
@@ -1058,7 +1058,7 @@ prepare for a new operating system</source>
     <message>
         <location filename="../ui/networkpage.ui" line="404"/>
         <source>Set up TFTP Server</source>
-        <translation>Set up TFTP Server</translation>
+        <translation>设置TFTP服务器</translation>
     </message>
     <message>
         <location filename="../ui/networkpage.ui" line="450"/>
@@ -1840,7 +1840,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/settingstab.ui" line="1291"/>
-        <source>High Resolution and Widescreen Video Modes 
+        <source>High Resolution and Widescreen Video Modes
 (Standard VGA)</source>
         <translation>高分辨率和宽屏视频模式
 （标准VGA）</translation>
