@@ -77,7 +77,7 @@ SettingsTab::~SettingsTab()
 void SettingsTab::registerWidgets()
 {
     config->registerObject(cpuSpinBox, "cpu", QVariant(1));
-    config->registerObject(memorySpinBox, "memory");
+    config->registerObject(memorySpinBox, "memory", QVariant(2048));
     config->registerObject(virtCheckBox, "virtualization", QVariant(false));
     config->registerObject(hdImage, "hdd");
     config->registerObject(cdImage, "cdrom");

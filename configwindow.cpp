@@ -93,6 +93,7 @@ ConfigWindow::ConfigWindow(const QString &myMachinesPathParent, int tabPosition,
     languagePosition->addItem(QString::fromUtf8("Italiano"));
     languagePosition->addItem(QString::fromUtf8("Português do Brasil"));
     languagePosition->addItem(QString::fromUtf8("Polski"));
+    languagePosition->addItem(QString::fromUtf8("简体中文"));
 
     QString language = settings.value("language", QString(QLocale::system().name())).toString();
     int index;
@@ -116,6 +117,8 @@ ConfigWindow::ConfigWindow(const QString &myMachinesPathParent, int tabPosition,
         index = 8;
     else if (language == "pl")
         index = 9;
+    else if (language == "zh")
+        index = 10;
     else
         index = 0;
 
@@ -215,6 +218,8 @@ void ConfigWindow::languageChange(int index)
         case 8: languageString = "pt-BR";
            break;
         case 9: languageString = "pl";
+           break;
+        case 10: languageString = "zh";
            break;
         default: languageString = "en";
     }

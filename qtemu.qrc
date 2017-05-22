@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>images/crystal/qtemu.png</file>
         <file>images/crystal/new.png</file>
         <file>images/crystal/open.png</file>
@@ -50,7 +50,6 @@
         <file>images/oxygen/mouse.png</file>
         <file>images/oxygen/add.png</file>
         <file>images/oxygen/remove.png</file>
-        <file>images/oxygen/force.png</file>
         <file>images/oxygen/share.png</file>
         <file>images/oxygen/keys.png</file>
     </qresource>

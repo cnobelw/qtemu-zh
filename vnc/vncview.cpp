@@ -27,7 +27,7 @@
     #include <QMessageBox>
     #include <QInputDialog>
     #define KMessageBox QMessageBox
-    #define error(parent, message, caption) \
+    #define Error(parent, message, caption) \
         critical(parent, caption, message)
 #else
     #include "settings.h"
@@ -298,7 +298,7 @@ void VncView::outputErrorMessage(const QString &message)
     startQuitting();
 
 #ifndef QTONLY
-    KMessageBox::error(this, message, i18n("VNC failure"));
+    KMessageBox::Error(this, message, i18n("VNC failure"));
 #endif
     emit errorMessage(i18n("VNC failure"), message);
 }

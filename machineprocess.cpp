@@ -34,6 +34,7 @@
 #include <QTimer>
 
 #include <signal.h>
+#include <unistd.h>
 
 MachineProcess::MachineProcess(MachineTab *parent)
   : QObject(parent)

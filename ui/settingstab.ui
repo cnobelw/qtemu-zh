@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>705</width>
-    <height>574</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -209,12 +209,21 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>497</width>
-          <height>432</height>
+          <width>657</width>
+          <height>478</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_19">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -303,7 +312,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;WARNING: &lt;span style=&quot; font-weight:400;&quot;&gt;Do not exceed your physical memory limitations - both your virtual and your physical machines must have enough memory to run!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="maximum">
-                     <number>1024</number>
+                     <number>4096</number>
                     </property>
                     <property name="singleStep">
                      <number>1</number>
@@ -1472,14 +1481,14 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>477</width>
-              <height>88</height>
+              <width>465</width>
+              <height>68</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_26">
              <item>
-              <widget class="QWebView" name="helpView">
-               <property name="url">
+              <widget class="QWebView" name="helpView" native="true">
+               <property name="url" stdset="0">
                 <url>
                  <string>about:blank</string>
                 </url>

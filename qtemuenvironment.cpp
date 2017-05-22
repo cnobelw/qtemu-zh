@@ -82,13 +82,13 @@ void QtEmuEnvironment::getVersion()
 
     QStringList infoStringList = infoString.split(' ');
     
-    versionString = infoStringList.at(4);
+    versionString = infoStringList.at(3);
 
     QStringList versionStringList = versionString.split('.');
     qemuVersion[0] = versionStringList.at(0).toInt();
     qemuVersion[1] = versionStringList.at(1).toInt();
     qemuVersion[2] = versionStringList.at(2).toInt();
-    versionString = infoStringList.at(5);
+    versionString = infoStringList.at(3);
 
     if(versionString.contains(QRegExp("kvm")))
     {

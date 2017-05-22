@@ -27,6 +27,7 @@ HEADERS = config.h \
     usbconfig.h \
     usbmodel.h \
     halobject.h\
+    GuestTools/modules/clipboard/clipboardsync.h \
  guesttoolslistener.h
 SOURCES = main.cpp \
     mainwindow.cpp \
@@ -56,6 +57,7 @@ SOURCES = main.cpp \
     usbconfig.cpp \
     usbmodel.cpp \
     halobject.cpp \
+    GuestTools/modules/clipboard/clipboardsync.cpp \
  guesttoolslistener.cpp
 
  include(GuestTools/modules/host.pri)
@@ -79,7 +81,8 @@ TRANSLATIONS = translations/template_qtemu.ts \
     translations/qtemu_it.ts \
     translations/qtemu_es.ts \
     translations/qtemu_pt-BR.ts \
-    translations/qtemu_pl.ts
+    translations/qtemu_pl.ts \
+    translations/qtemu_zh.ts
 CONFIG += debug_and_release
 LIBS += -lvncclient
 DEFINES += QTONLY
