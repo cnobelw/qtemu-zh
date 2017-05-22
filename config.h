@@ -24,6 +24,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define VERSION "2.0 Alpha1"
+#define VERSION "2.0"
 
 #endif
