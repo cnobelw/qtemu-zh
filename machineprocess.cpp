@@ -210,7 +210,7 @@ QStringList MachineProcess::buildParamList()
         arguments << usbConfig->getOptionString();
     }
     if (property("usbSupport").toBool() && property("mouse").toBool())
-        arguments << "-usbdevice" << "tablet";
+        arguments << "-device" << "usb-tablet";
 
     //set time from host
     if (property("time").toBool())
@@ -332,7 +332,7 @@ void MachineProcess::start()
     process->setEnvironment(buildEnvironment());
 
     beforeRunExecute();
-    
+
 #ifndef Q_OS_WIN32
     process->start(settings.value("command", "qemu").toString(), arguments);
 #elif defined(Q_OS_WIN32)
@@ -507,7 +507,7 @@ void MachineProcess::suspend(const QString & snapshotName)
     //usb is not properly resumed, so we need to disable it first in order to keep things working afterwords.
     //this also means that we need to dynamically get usb devices to unload and save them with the qtemu config
     //file for proper usb support with suspend. as it is we just unload the tablet, which is all we know about.
-    if(property("mouse").toBool()) 
+    if(property("mouse").toBool())
     {
         write("usb_del 0.1\n");
         sleep(2);//wait for the guest OS to notice
@@ -562,7 +562,7 @@ void MachineProcess::readProcess()
         emit stdout(convOutput.simplified());
         lastOutput.append(convOutput.simplified());
     }
-    else 
+    else
     {
         if(!splitOutput.last().isEmpty())
         {
@@ -642,7 +642,7 @@ void MachineProcess::loadCdrom()
     if ((versionMajor >= 0 && versionMinor >= 9 && versionBugfix >= 1)|(kvmVersion>=60))
         write("change ide1-cd0 " + property("cdrom").toByteArray() + '\n');
     else
-        write("change cdrom" + property("cdrom").toByteArray() + '\n'); 
+        write("change cdrom" + property("cdrom").toByteArray() + '\n');
 }
 
 void MachineProcess::commitTmp()

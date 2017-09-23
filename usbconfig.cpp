@@ -42,7 +42,7 @@ QStringList UsbConfig::getOptionString()
     QStringList optionString;
     foreach(QString name, hostDeviceNames)
     {
-        optionString << "-usbdevice" << "host:" + config->getOption("usb", name, "address", QString()).toString();
+        optionString << "-device" << "host:" + config->getOption("usb", name, "address", QString()).toString();
     }
     return optionString;
 }
